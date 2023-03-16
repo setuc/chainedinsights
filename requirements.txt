@@ -1,0 +1,9 @@
+python==3.10
+pip
+gradio
+black
+torch
+transformers
+openai
+numpy
+langchain
