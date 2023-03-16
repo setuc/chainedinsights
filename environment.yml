@@ -1,0 +1,15 @@
+name: chainedInsights
+channels:
+  - conda
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - gradio
+  - black
+  - pip:
+      - torch
+      - transformers
+      - openai
+      - numpy
+      - langchain
