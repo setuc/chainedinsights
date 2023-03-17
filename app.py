@@ -51,4 +51,4 @@ with gr.Blocks() as demo:
     txt.submit(add_text, [chatbot, txt], [chatbot, txt]).then(bot, chatbot, chatbot)
     btn.upload(add_file, [chatbot, btn], [chatbot]).then(bot, chatbot, chatbot)
 
-demo.launch(share=False, inline=True, debug=False, server_port=port, show_api=False)
+demo.launch(share=False, inline=True, debug=False, server_port=port, server_name='0.0.0.0',show_api=False)
