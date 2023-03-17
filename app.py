@@ -1,7 +1,7 @@
 import gradio as gr
 import os
 
-port = int(os.environ.get('WEBSITES_PORT', 5000))
+port = int(os.environ.get('PORT', 8080))
 
 def add_text(history, text):
     """_summary_
