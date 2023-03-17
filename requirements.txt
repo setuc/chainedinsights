@@ -1,8 +1,3 @@
-pip
-gradio
-black
-torch
-transformers
-openai
-numpy
-langchain
+gradio==3.21.0
+openai==0.26.4
+langchain==0.0.78
