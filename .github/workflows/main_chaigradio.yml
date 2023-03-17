@@ -1,0 +1,51 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy container app to Azure Web App - chaigradio
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: 'ubuntu-latest'
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Log in to registry
+      uses: docker/login-action@v1
+      with:
+        registry: https://chatbotimages.azurecr.io/
+        username: ${{ secrets.AzureAppService_ContainerUsername_62a018cafd5e4ad78a3b89e67666d73c }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_652eba9dde694be398c859e21f631cb5 }}
+
+    - name: Build and push container image to registry
+      uses: docker/build-push-action@v2
+      with:
+        push: true
+        tags: chatbotimages.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_62a018cafd5e4ad78a3b89e67666d73c }}/gradio-app:${{ github.sha }}
+        file: ./Dockerfile
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'chaigradio'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_09391c9feb3748d79da8d67cabe6dd8c }}
+        images: 'chatbotimages.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_62a018cafd5e4ad78a3b89e67666d73c }}/gradio-app:${{ github.sha }}'
