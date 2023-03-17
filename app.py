@@ -1,5 +1,7 @@
 import gradio as gr
+import os
 
+port = int(os.environ.get('WEBSITES_PORT', 8080))
 
 def add_text(history, text):
     """_summary_
@@ -49,4 +51,4 @@ with gr.Blocks() as demo:
     txt.submit(add_text, [chatbot, txt], [chatbot, txt]).then(bot, chatbot, chatbot)
     btn.upload(add_file, [chatbot, btn], [chatbot]).then(bot, chatbot, chatbot)
 
-demo.launch(share=True, inline=True, debug=True, server_port=8080, show_api=False)
+demo.launch(share=True, inline=True, debug=True, server_port=port, show_api=False)
